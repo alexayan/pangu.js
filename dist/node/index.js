@@ -16,11 +16,11 @@ var NodePangu = function (_Pangu) {
   _inherits(NodePangu, _Pangu);
 
   function NodePangu() {
-    var filePrefix = arguments.length <= 0 || arguments[0] === undefined ? 'readable.' : arguments[0];
+    var filePrefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'readable.';
 
     _classCallCheck(this, NodePangu);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NodePangu).call(this));
+    var _this = _possibleConstructorReturn(this, (NodePangu.__proto__ || Object.getPrototypeOf(NodePangu)).call(this));
 
     _this.filePrefix = filePrefix;
     return _this;
@@ -31,7 +31,7 @@ var NodePangu = function (_Pangu) {
     value: function spacingFile(path) {
       var _this2 = this;
 
-      var callback = arguments.length <= 1 || arguments[1] === undefined ? function () {} : arguments[1];
+      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
 
       return new Promise(function (resolve, reject) {
         fs.readFile(path, 'utf8', function (err, data) {
@@ -60,6 +60,7 @@ var NodePangu = function (_Pangu) {
     // TODO
     // spacingFileFromURL(url, callback) {
     // }
+
 
     // TODO
     // spacingHTML(html, callback) {

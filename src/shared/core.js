@@ -23,7 +23,8 @@
 // quoteCJK >> 跟 Go 版差了一個 '
 const cjkQuote = /([\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff])(["])/g;
 const quoteCJK = /(["])([\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff])/g;
-const fixQuote = /(["]+)(\s*)(.+?)(\s*)(["]+)/g;
+const fixQuote = /(["']+)(\s*)(.+?)(\s*)(["']+)/g;
+const fixANSQuote = /(["]+)(\s*)(.+?)(\s*)(["]+)/g;
 const fixSingleQuote = /([\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff])( )(')([A-Za-z])/g;
 
 const hashANSCJKhash = /([\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff])(#)([A-Za-z0-9\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]+)(#)([\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff])/g;
@@ -50,7 +51,11 @@ class Pangu {
 
     newText = newText.replace(cjkQuote, '$1 $2');
     newText = newText.replace(quoteCJK, '$1 $2');
-    newText = newText.replace(fixQuote, '$1$3$5');
+    if (/^[^\u2e80-\u2eff\u2f00-\u2fdf\u3040-\u309f\u30a0-\u30ff\u3100-\u312f\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]+$/.test(newText)) {
+      newText = newText.replace(fixANSQuote, '$1$3$5');
+    } else {
+      newText = newText.replace(fixQuote, '$1$3$5');
+    }
     newText = newText.replace(fixSingleQuote, '$1$3$4');
 
     newText = newText.replace(hashANSCJKhash, '$1 $2$3$4 $5');
